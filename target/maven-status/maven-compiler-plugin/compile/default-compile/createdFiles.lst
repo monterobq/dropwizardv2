@@ -1,0 +1,5 @@
+eu/kielczewski/example/dropwizard/hello/MessageResource.class
+eu/kielczewski/example/dropwizard/model/ListMsg.class
+eu/kielczewski/example/dropwizard/config/MessagesConfiguration.class
+eu/kielczewski/example/dropwizard/model/Message.class
+eu/kielczewski/example/dropwizard/MessagesService.class
