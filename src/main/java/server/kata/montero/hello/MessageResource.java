@@ -27,7 +27,10 @@ public class MessageResource {
 
     @GET
     public ListMsg getMsg(@QueryParam("next_seq") Optional<String> next_seq) {
-        if(messageList.getNextSeq()<=(Integer.parseInt(next_seq.get()))){
+        if(next_seq.equals(Optional.absent())){
+            return messageList;
+
+        }else if(messageList.getNextSeq()<=(Integer.parseInt(next_seq.get()))){
             Message m=new Message("","");
             ArrayList <Message> messageList2=new ArrayList<Message>();
             messageList2.add(m);

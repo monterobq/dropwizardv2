@@ -6,6 +6,7 @@ import java.util.ArrayList;
  * Created by montero on 11/12/13.
  */
 public class ListMsg {
+
     int nextSeq;
     ArrayList<Message> messages;
 
@@ -31,4 +32,18 @@ public class ListMsg {
     public void setMessages(ArrayList<Message> messages) {
         this.messages = messages;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof ListMsg)) return false;
+
+        ListMsg listMsg = (ListMsg) o;
+
+        if (nextSeq != listMsg.nextSeq) return false;
+        if (!messages.equals(listMsg.messages)) return false;
+
+        return true;
+    }
+
 }

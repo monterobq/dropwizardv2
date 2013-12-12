@@ -30,4 +30,19 @@ public class Message {
     public void setNick(String nick) {
         this.nick = nick;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Message)) return false;
+
+        Message message1 = (Message) o;
+
+        if (!message.equals(message1.message)) return false;
+        if (!nick.equals(message1.nick)) return false;
+
+        return true;
+    }
+
+
 }
