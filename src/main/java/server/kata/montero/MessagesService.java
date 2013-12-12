@@ -1,11 +1,14 @@
-package eu.kielczewski.example.dropwizard;
+package server.kata.montero;
 
 import com.yammer.dropwizard.Service;
 import com.yammer.dropwizard.config.Bootstrap;
 import com.yammer.dropwizard.config.Environment;
 
-import eu.kielczewski.example.dropwizard.config.MessagesConfiguration;
-import eu.kielczewski.example.dropwizard.hello.MessageResource;
+import server.kata.montero.config.MessagesConfiguration;
+import server.kata.montero.hello.MessageResource;
+/**
+ * Created by montero on 11/12/13.
+ */
 
 public class MessagesService extends Service<MessagesConfiguration> {
 

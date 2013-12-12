@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/dropwizard.iml" filepath="$PROJECT_DIR$/dropwizard.iml" />
+      <module fileurl="file://$PROJECT_DIR$/serverkata.iml" filepath="$PROJECT_DIR$/serverkata.iml" />
     </modules>
   </component>
 </project>

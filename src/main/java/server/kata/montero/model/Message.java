@@ -1,12 +1,14 @@
-package eu.kielczewski.example.dropwizard.model;
+package server.kata.montero.model;
 
 /**
  * Created by montero on 11/12/13.
  */
 public class Message {
 
-    String nick;
-    String message;
+    private String nick;
+    private String message;
+
+    private Message(){}
 
     public Message(String nick, String message) {
         this.nick = nick;
