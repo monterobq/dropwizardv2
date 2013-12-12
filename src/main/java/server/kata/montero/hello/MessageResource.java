@@ -30,19 +30,26 @@ public class MessageResource {
         if(next_seq.equals(Optional.absent())){
             return messageList;
 
-        }else if(messageList.getNextSeq()<=(Integer.parseInt(next_seq.get()))){
-            Message m=new Message("","");
-            ArrayList <Message> messageList2=new ArrayList<Message>();
-            messageList2.add(m);
-            ListMsg aux=new ListMsg(messageList.getNextSeq(),messageList2);
-            return aux;
-        }else if (next_seq!=null){
-            ListMsg aux=new ListMsg(messageList.getNextSeq(),subList(next_seq));
-            return aux;
-        } else
-            return messageList;
-
-
+        }else {
+            try {
+                Integer.parseInt(next_seq.get());
+            } catch (NumberFormatException e) {
+                ListMsg aux=new ListMsg(0,new ArrayList<Message>());
+                aux.getMessages().add(new Message("error","invalid seq parameter"));
+                return aux;
+            }
+            if(messageList.getNextSeq()<=(Integer.parseInt(next_seq.get()))){
+                Message m=new Message("","");
+                ArrayList <Message> messageList2=new ArrayList<Message>();
+                messageList2.add(m);
+                ListMsg aux=new ListMsg(messageList.getNextSeq(),messageList2);
+                return aux;
+            }else if (next_seq!=null){
+                ListMsg aux=new ListMsg(messageList.getNextSeq(),subList(next_seq));
+                return aux;
+            } else
+                return messageList;
+        }
 
 
     }
@@ -62,6 +69,11 @@ public class MessageResource {
 
     @POST
     public Response add(Message msg) {
+        if(msg.getMessage()=="" || msg.getNick()=="" || msg==null)
+            return Response.status(400).build();
+
+        else{
+
         try {
             messageList.getMessages().add(msg);
             messageList.setNextSeq(messageList.getMessages().size());
@@ -69,11 +81,7 @@ public class MessageResource {
         } catch (Exception e) {
             return Response.status(400).build();
         }
-
-
-       // messageList.getMessages().subList((Integer.parseInt(next_seq.get())),messageList.getMessages().size())
-
-
+        }
 
     }
 }

@@ -4,6 +4,9 @@ import com.yammer.dropwizard.testing.ResourceTest;
 import org.junit.Test;
 import server.kata.montero.model.ListMsg;
 import server.kata.montero.model.Message;
+
+import javax.ws.rs.core.Response;
+
 import static com.yammer.dropwizard.testing.JsonHelpers.*;
 
 import java.util.ArrayList;
@@ -12,11 +15,12 @@ import static org.hamcrest.core.Is.is;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Created by montero on 12/12/13.
  */
-public class MessageResourceTest /*extends ResourceTest*/ {
+public class MessageResourceTest {
 
     @Test
     public void testAddNewMessage() throws Exception {
@@ -90,7 +94,7 @@ public class MessageResourceTest /*extends ResourceTest*/ {
 
     @Test
     public void serializesToJSON() throws Exception {
-        final ListMsg listMsg = new ListMsg(6,new ArrayList<Message>());
+        ListMsg listMsg = new ListMsg(6,new ArrayList<Message>());
         Message message=new Message("user1","hi there");
         listMsg.getMessages().add(message);
         message=new Message("user2","hola");
@@ -102,7 +106,7 @@ public class MessageResourceTest /*extends ResourceTest*/ {
 
     @Test
     public void deserializesFromJSON() throws Exception {
-        final ListMsg listMsg = new ListMsg(6,new ArrayList<Message>());
+        ListMsg listMsg = new ListMsg(6,new ArrayList<Message>());
         Message message=new Message("user1","hi there");
         listMsg.getMessages().add(message);
         message=new Message("user2","hola");
@@ -112,11 +116,30 @@ public class MessageResourceTest /*extends ResourceTest*/ {
                 is(equalTo(listMsg)));
     }
 
+    @Test
+    public void testGoodResponse() throws Exception {
+        Message message=new Message("user1","hi there");
+        int response = new MessageResource().add(message).getStatus();
+        assertEquals(Response.status(200).build().getStatus(),response);
+    }
 
-  /*  @Override
-    protected void setUpResources() throws Exception {
-        addResource();
-        client().resource().get(ListMsg.class);
+    @Test
+    public void testBadResponse1() throws Exception {
+        Message message=new Message("user1","");
+        int response = new MessageResource().add(message).getStatus();
+        assertEquals(Response.status(400).build().getStatus(),response);
+    }
 
-    }*/
+    @Test
+    public void testBadResponse2() throws Exception {
+        Message message=new Message("","hi hi hi");
+        int response = new MessageResource().add(message).getStatus();
+        assertEquals(Response.status(400).build().getStatus(),response);
+    }
+    public void testBadResponse3() throws Exception {
+        Message message=null;
+        int response = new MessageResource().add(message).getStatus();
+        assertEquals(Response.status(400).build().getStatus(),response);
+    }
+
 }
