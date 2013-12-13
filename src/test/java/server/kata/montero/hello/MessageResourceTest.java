@@ -1,5 +1,6 @@
 package server.kata.montero.hello;
 
+import com.google.common.base.Optional;
 import com.yammer.dropwizard.testing.ResourceTest;
 import org.junit.Test;
 import server.kata.montero.model.ListMsg;
@@ -136,10 +137,16 @@ public class MessageResourceTest {
         int response = new MessageResource().add(message).getStatus();
         assertEquals(Response.status(400).build().getStatus(),response);
     }
+    @Test
     public void testBadResponse3() throws Exception {
         Message message=null;
-        int response = new MessageResource().add(message).getStatus();
+        int response;
+        try {
+            new MessageResource().add(message).getStatus();
+            response=200;
+        } catch (Exception e) {
+            response=400;
+        }
         assertEquals(Response.status(400).build().getStatus(),response);
     }
-
-}
+  }
