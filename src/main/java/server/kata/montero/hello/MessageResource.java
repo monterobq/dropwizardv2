@@ -38,7 +38,12 @@ public class MessageResource {
                 aux.getMessages().add(new Message("error","invalid seq parameter"));
                 return aux;
             }
-            if(messageList.getNextSeq()<=(Integer.parseInt(next_seq.get()))){
+            if(Integer.parseInt(next_seq.get())<0){
+                ListMsg aux=new ListMsg(0,new ArrayList<Message>());
+                aux.getMessages().add(new Message("error","invalid seq parameter, mustn't be negative"));
+                return aux;
+
+            }else if(messageList.getNextSeq()<=(Integer.parseInt(next_seq.get()))){
                 Message m=new Message("","");
                 ArrayList <Message> messageList2=new ArrayList<Message>();
                 messageList2.add(m);

@@ -3,9 +3,11 @@ package server.kata.montero.hello;
 import com.google.common.base.Optional;
 import com.yammer.dropwizard.testing.ResourceTest;
 import org.junit.Test;
+import server.kata.montero.MessagesService;
 import server.kata.montero.model.ListMsg;
 import server.kata.montero.model.Message;
 
+import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import static com.yammer.dropwizard.testing.JsonHelpers.*;
@@ -23,74 +25,23 @@ import static org.junit.Assert.assertTrue;
  */
 public class MessageResourceTest {
 
+
+    @Test
+    public void testEmptyList() throws Exception {
+        MessageResource messageResource= new MessageResource();
+        assertEquals(messageResource.messageList.getNextSeq(), 0);
+    }
+
     @Test
     public void testAddNewMessage() throws Exception {
-        ListMsg messageList;
         Message msg;
-        msg=new Message("","");
-        messageList=new ListMsg(0,new ArrayList<Message>());
-        msg.setMessage("Blas");
-        msg.setNick("What happends?");
-        messageList.getMessages().add(msg);
-        assertEquals(msg,messageList.getMessages().get(0));
+        msg=new Message("Blas","What happends?");
+        MessageResource messageResource= new MessageResource();
+        messageResource.add(msg);
 
+        assertEquals(messageResource.messageList.getMessages().get(0).getMessage(),msg.getMessage());
+        assertEquals(messageResource.messageList.getMessages().get(0).getNick(),msg.getNick());
 
-    }
-
-    @Test
-    public void testGetSublist() throws Exception {
-        ListMsg messageList;
-        int seq;
-        Message msg;
-        msg=new Message("","");
-        messageList=new ListMsg(0,new ArrayList<Message>());
-        seq=1;
-        msg.setMessage("Blas");
-        msg.setNick("What happends?");
-        messageList.getMessages().add(msg);
-        msg.setMessage("Matt");
-        msg.setNick("Nothing.. Why?");
-        messageList.getMessages().add(msg);
-        msg.setMessage("Mary");
-        msg.setNick("See you guys");
-        messageList.getMessages().add(msg);
-
-        messageList.setNextSeq(messageList.getMessages().size());
-
-
-        ArrayList<Message> aux=new ArrayList<Message>();
-        for(;seq<messageList.getMessages().size();seq++){
-            aux.add(messageList.getMessages().get(seq));
-        }
-        assertEquals(aux.get(1).getMessage(), messageList.getMessages().get(2).getMessage());
-    }
-
-    @Test
-    public void testGetSublist2() throws Exception {
-        ListMsg messageList;
-        int seq;
-        Message msg;
-        msg=new Message("","");
-        messageList=new ListMsg(0,new ArrayList<Message>());
-        seq=1;
-        msg.setMessage("Blas");
-        msg.setNick("What happends?");
-        messageList.getMessages().add(msg);
-        msg.setMessage("Matt");
-        msg.setNick("Nothing.. Why?");
-        messageList.getMessages().add(msg);
-        msg.setMessage("Mary");
-        msg.setNick("See you guys");
-        messageList.getMessages().add(msg);
-
-        messageList.setNextSeq(messageList.getMessages().size());
-
-
-        ArrayList<Message> aux=new ArrayList<Message>();
-        for(;seq<messageList.getMessages().size();seq++){
-            aux.add(messageList.getMessages().get(seq));
-        }
-        assertEquals(aux.get(1).getNick(), messageList.getMessages().get(2).getNick());
     }
 
     @Test
@@ -149,4 +100,67 @@ public class MessageResourceTest {
         }
         assertEquals(Response.status(400).build().getStatus(),response);
     }
-  }
+    @Test
+    public void testGetSublist() throws Exception {
+
+        //  ListMsg message = client().resource("/chat-kata/api/chat").queryParam("next_seq","1").type(MediaType.APPLICATION_JSON).get(Message.class);
+
+
+
+        ListMsg messageList;
+        int seq;
+        Message msg;
+        msg=new Message("","");
+        messageList=new ListMsg(0,new ArrayList<Message>());
+        seq=1;
+        msg.setMessage("Blas");
+        msg.setNick("What happends?");
+        messageList.getMessages().add(msg);
+        msg.setMessage("Matt");
+        msg.setNick("Nothing.. Why?");
+        messageList.getMessages().add(msg);
+        msg.setMessage("Mary");
+        msg.setNick("See you guys");
+        messageList.getMessages().add(msg);
+
+        messageList.setNextSeq(messageList.getMessages().size());
+
+
+
+
+        ArrayList<Message> aux=new ArrayList<Message>();
+        for(;seq<messageList.getMessages().size();seq++){
+            aux.add(messageList.getMessages().get(seq));
+        }
+        assertEquals(aux.get(1).getMessage(), messageList.getMessages().get(2).getMessage());
+    }
+
+    @Test
+    public void testGetSublist2() throws Exception {
+        ListMsg messageList;
+        int seq;
+        Message msg;
+        msg=new Message("","");
+        messageList=new ListMsg(0,new ArrayList<Message>());
+        seq=1;
+        msg.setMessage("Blas");
+        msg.setNick("What happends?");
+        messageList.getMessages().add(msg);
+        msg.setMessage("Matt");
+        msg.setNick("Nothing.. Why?");
+        messageList.getMessages().add(msg);
+        msg.setMessage("Mary");
+        msg.setNick("See you guys");
+        messageList.getMessages().add(msg);
+
+        messageList.setNextSeq(messageList.getMessages().size());
+
+
+        ArrayList<Message> aux=new ArrayList<Message>();
+        for(;seq<messageList.getMessages().size();seq++){
+            aux.add(messageList.getMessages().get(seq));
+        }
+        assertEquals(aux.get(1).getNick(), messageList.getMessages().get(2).getNick());
+    }
+
+}
